@@ -1,10 +1,14 @@
 package com.javacrew.subway.domain;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@Getter
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
@@ -15,4 +19,8 @@ public class Station {
     private Long id;
 
     private String name;
+
+    public void changeName(String name) {
+        this.name = name;
+    }
 }
