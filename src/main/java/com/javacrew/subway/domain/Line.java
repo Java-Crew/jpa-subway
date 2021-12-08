@@ -32,5 +32,6 @@ public class Line {
 
     public void addStation(Station station) {
         this.stations.add(station);
+        station.changeLine(this);
     }
 }

@@ -64,4 +64,18 @@ class LineRepositoryTest {
         Station actual = stationRepository.findByName("잠실역");
         assertThat(actual).isSameAs(expected.getStations().get(0));
     }
+
+    @Test
+    void save_연관_관계_편의_메소드_주의_사항() {
+        Line line = lineRepository.save(Line.builder()
+                .name("2호선")
+                .build());
+
+        Station station = stationRepository.findByName("교대역");
+        station.changeLine(line);
+
+        Line nowLine = lineRepository.findByName("3호선");
+        assertThat(nowLine.getStations()).isEmpty();
+        lineRepository.flush(); // Line 변경 감지 반영
+    }
 }

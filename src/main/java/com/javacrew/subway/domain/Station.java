@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -33,6 +34,10 @@ public class Station {
     }
 
     public void changeLine(Line line) {
+        if (!Objects.isNull(this.line)) {
+            this.line.getStations().remove(this);
+        }
         this.line = line;
+        line.getStations().add(this);
     }
 }
