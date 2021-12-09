@@ -38,6 +38,8 @@ public class Station {
             this.line.getStations().remove(this);
         }
         this.line = line;
-        line.getStations().add(this);
+        if (!line.getStations().contains(this)) {
+            line.addStation(this);
+        }
     }
 }
