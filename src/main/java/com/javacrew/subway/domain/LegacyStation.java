@@ -38,7 +38,7 @@ public class LegacyStation {
             this.line.getLegacyStations().remove(this);
         }
         this.line = line;
-        if (!line.getLegacyStations().contains(this)) {
+        if (!Objects.isNull(line) && !line.getLegacyStations().contains(this)) {
             line.addStation(this);
         }
     }

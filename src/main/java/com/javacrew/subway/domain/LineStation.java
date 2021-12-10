@@ -20,8 +20,12 @@ public class LineStation {
     @JoinColumn(name = "line_id")
     private Line line;
 
+    @OneToOne(mappedBy = "lineStation")
+    private Station station;
+
     @Builder
-    public LineStation(Line line) {
+    public LineStation(Line line, Station station) {
         this.line = line;
+        this.station = station;
     }
 }
