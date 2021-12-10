@@ -22,19 +22,19 @@ public class Line {
     private String name;
 
     @OneToMany(mappedBy = "line")
-    private List<Station> stations = new ArrayList<>();
+    private List<LegacyStation> legacyStations = new ArrayList<>();
 
     @Builder
     public Line(String name) {
         this.name = name;
-        stations = new ArrayList<>();
+        legacyStations = new ArrayList<>();
     }
 
-    public void addStation(Station station) {
-        this.stations.add(station);
+    public void addStation(LegacyStation legacyStation) {
+        this.legacyStations.add(legacyStation);
 
-        if (station.getLine() != this) {
-            station.changeLine(this);
+        if (legacyStation.getLine() != this) {
+            legacyStation.changeLine(this);
         }
     }
 }

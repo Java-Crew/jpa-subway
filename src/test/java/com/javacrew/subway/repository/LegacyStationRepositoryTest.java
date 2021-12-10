@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.*;
     스프링 부트 2.5 이후부터는 기본 값으로 지원 안하므로 application.yml 설정의 spring.jpa.defer-datasource-initialization 값 true 변경
  */
 @DataJpaTest
-@DisplayName("StationRepository 테스트")
+@DisplayName("LegacyStationRepository 테스트")
 class LegacyStationRepositoryTest {
 
     @Autowired

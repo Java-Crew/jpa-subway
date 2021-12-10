@@ -10,18 +10,22 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class LineStation {
+public class Station {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "line_id")
-    private Line line;
+    @Column(nullable = false)
+    private String name;
+
+    @OneToOne
+    @JoinColumn(name = "line_station_id")
+    private LineStation lineStation;
 
     @Builder
-    public LineStation(Line line) {
-        this.line = line;
+    public Station(String name, LineStation lineStation) {
+        this.name = name;
+        this.lineStation = lineStation;
     }
 }

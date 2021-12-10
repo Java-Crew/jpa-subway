@@ -1,14 +1,13 @@
 package com.javacrew.subway.repository;
 
+import com.javacrew.subway.domain.LegacyStation;
 import com.javacrew.subway.domain.Line;
-import com.javacrew.subway.domain.Station;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 /*
     해당 테스트는 test/resources/data.sql 이용하여 데이터 초기화를 하고 있음.
@@ -20,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class LineRepositoryTest {
 
     @Autowired
-    private StationRepository stationRepository;
+    private LegacyStationRepository legacyStationRepository;
 
     @Autowired
     private LineRepository lineRepository;
@@ -28,7 +27,7 @@ class LineRepositoryTest {
     @Test
     void findByName() {
         Line line = lineRepository.findByName("3호선");
-        assertThat(line.getStations()).hasSize(1);
+        assertThat(line.getLegacyStations()).hasSize(1);
     }
 
     @Test
@@ -37,14 +36,14 @@ class LineRepositoryTest {
                 .name("2호선")
                 .build();
 
-        expected.addStation(Station.builder()
+        expected.addStation(LegacyStation.builder()
                 .name("잠실역")
                 .build());
 
         lineRepository.save(expected);
         lineRepository.flush();
 
-        Station actual = stationRepository.findByName("잠실역");
+        LegacyStation actual = legacyStationRepository.findByName("잠실역");
         assertThat(actual).isNull();
     }
 
@@ -54,15 +53,15 @@ class LineRepositoryTest {
                 .name("2호선")
                 .build();
 
-        expected.addStation(stationRepository.save(Station.builder()
+        expected.addStation(legacyStationRepository.save(LegacyStation.builder()
                 .name("잠실역")
                 .build()));
 
         lineRepository.save(expected);
         lineRepository.flush();
 
-        Station actual = stationRepository.findByName("잠실역");
-        assertThat(actual).isSameAs(expected.getStations().get(0));
+        LegacyStation actual = legacyStationRepository.findByName("잠실역");
+        assertThat(actual).isSameAs(expected.getLegacyStations().get(0));
     }
 
     @Test
@@ -71,11 +70,11 @@ class LineRepositoryTest {
                 .name("2호선")
                 .build());
 
-        Station station = stationRepository.findByName("교대역");
-        station.changeLine(line);
+        LegacyStation legacyStation = legacyStationRepository.findByName("교대역");
+        legacyStation.changeLine(line);
 
         Line nowLine = lineRepository.findByName("3호선");
-        assertThat(nowLine.getStations()).isEmpty();
+        assertThat(nowLine.getLegacyStations()).isEmpty();
         lineRepository.flush(); // Line 변경 감지 반영
     }
 }
