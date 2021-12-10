@@ -11,7 +11,7 @@ import java.util.Objects;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Station {
+public class LegacyStation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,7 +24,7 @@ public class Station {
     private Line line;
 
     @Builder
-    public Station(String name, Line line) {
+    public LegacyStation(String name, Line line) {
         this.name = name;
         this.line = line;
     }
@@ -35,10 +35,10 @@ public class Station {
 
     public void changeLine(Line line) {
         if (!Objects.isNull(this.line)) {
-            this.line.getStations().remove(this);
+            this.line.getLegacyStations().remove(this);
         }
         this.line = line;
-        if (!line.getStations().contains(this)) {
+        if (!line.getLegacyStations().contains(this)) {
             line.addStation(this);
         }
     }

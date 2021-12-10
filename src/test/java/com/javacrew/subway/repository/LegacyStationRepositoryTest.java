@@ -1,7 +1,7 @@
 package com.javacrew.subway.repository;
 
+import com.javacrew.subway.domain.LegacyStation;
 import com.javacrew.subway.domain.Line;
-import com.javacrew.subway.domain.Station;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,20 +17,20 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 @DataJpaTest
 @DisplayName("StationRepository 테스트")
-class StationRepositoryTest {
+class LegacyStationRepositoryTest {
 
     @Autowired
-    private StationRepository stationRepository;
+    private LegacyStationRepository legacyStationRepository;
 
     @Autowired
     private LineRepository lineRepository;
 
     @Test
     void save() {
-        Station expected = Station.builder()
+        LegacyStation expected = LegacyStation.builder()
                 .name("잠실역")
                 .build();
-        Station actual = stationRepository.save(expected);
+        LegacyStation actual = legacyStationRepository.save(expected);
         assertAll(
                 () -> assertThat(actual.getId()).isNotNull(),
                 () -> assertThat(actual.getName()).isEqualTo(expected.getName())
@@ -40,35 +40,35 @@ class StationRepositoryTest {
     @Test
     void findByName() {
         String expected = "잠실역";
-        stationRepository.save(Station.builder()
+        legacyStationRepository.save(LegacyStation.builder()
                 .name(expected)
                 .build());
-        String actual = stationRepository.findByName(expected).getName();
+        String actual = legacyStationRepository.findByName(expected).getName();
         assertThat(actual).isEqualTo(expected);
     }
 
     @Test
     void identity() {
-        Station station1 = stationRepository.save(Station.builder()
+        LegacyStation legacyStation1 = legacyStationRepository.save(LegacyStation.builder()
                 .name("잠실역")
                 .build());
-        Station station2 = stationRepository.findById(station1.getId()).get();
-        assertThat(station1).isSameAs(station2);
+        LegacyStation legacyStation2 = legacyStationRepository.findById(legacyStation1.getId()).get();
+        assertThat(legacyStation1).isSameAs(legacyStation2);
     }
 
     @Test
     void update() {
-        Station station1 = stationRepository.save(Station.builder()
+        LegacyStation legacyStation1 = legacyStationRepository.save(LegacyStation.builder()
                 .name("잠실역")
                 .build());
-        station1.changeName("몽촌토성역");
-        Station station2 = stationRepository.findById(station1.getId()).get();
-        assertThat(station2).isNotNull();
+        legacyStation1.changeName("몽촌토성역");
+        LegacyStation legacyStation2 = legacyStationRepository.findById(legacyStation1.getId()).get();
+        assertThat(legacyStation2).isNotNull();
     }
 
     @Test
     void saveWithLine() {
-        Station expected = stationRepository.save(Station.builder()
+        LegacyStation expected = legacyStationRepository.save(LegacyStation.builder()
                 .name("잠실역")
                 .build());
 
@@ -76,14 +76,14 @@ class StationRepositoryTest {
                 .name("2호선")
                 .build()));
 
-        Station actual = stationRepository.save(expected);
+        LegacyStation actual = legacyStationRepository.save(expected);
         assertThat(actual).isSameAs(expected);
-        stationRepository.flush();
+        legacyStationRepository.flush();
     }
 
     @Test
     void findByNameWithLine() {
-        Station actual = stationRepository.findByName("교대역");
+        LegacyStation actual = legacyStationRepository.findByName("교대역");
         assertAll(
                 () -> assertThat(actual).isNotNull(),
                 () -> assertThat(actual.getLine().getName()).isEqualTo("3호선")
@@ -92,23 +92,23 @@ class StationRepositoryTest {
 
     @Test
     void updateWithLine() {
-        Station expected = stationRepository.findByName("교대역");
+        LegacyStation expected = legacyStationRepository.findByName("교대역");
         expected.changeLine(lineRepository.save(Line.builder()
                 .name("2호선")
                 .build()));
 
-        Station actual = stationRepository.findById(expected.getId()).get();
+        LegacyStation actual = legacyStationRepository.findById(expected.getId()).get();
         assertThat(actual).isSameAs(expected);
-        stationRepository.flush();
+        legacyStationRepository.flush();
     }
 
     @Test
     void removeLine() {
-        Station expected = stationRepository.findByName("교대역");
+        LegacyStation expected = legacyStationRepository.findByName("교대역");
         expected.changeLine(null);
-        stationRepository.flush();
+        legacyStationRepository.flush();
 
-        Station station = stationRepository.findById(expected.getId()).get();
-        assertThat(station.getLine()).isNull();
+        LegacyStation legacyStation = legacyStationRepository.findById(expected.getId()).get();
+        assertThat(legacyStation.getLine()).isNull();
     }
 }
