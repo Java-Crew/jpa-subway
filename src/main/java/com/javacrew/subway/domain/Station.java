@@ -10,6 +10,11 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Table(uniqueConstraints =
+    @UniqueConstraint(
+        columnNames = {"line_station_id"}
+    )
+)
 public class Station {
 
     @Id
