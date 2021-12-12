@@ -49,4 +49,19 @@ public class LineRepositoryTest {
         lineRepository.deleteByName("3호선");
         stationRepository.flush();
     }
+
+    @Test
+    void findByName() {
+        Line line = lineRepository.findByName("3호선");
+        assertThat(line.getStations()).hasSize(1);
+    }
+
+    @Test
+    void save() {
+        Line expected = new Line("2호선");
+        //expected.addStation(new Station("잠실역"));
+        expected.addStation(stationRepository.save(new Station("잠실역")));
+        lineRepository.save(expected);
+        lineRepository.flush();
+    }
 }

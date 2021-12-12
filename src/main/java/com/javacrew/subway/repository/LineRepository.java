@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface LineRepository extends JpaRepository<Line, Long> {
 
     void deleteByName(String name);
+
+    Line findByName(String name);
 }

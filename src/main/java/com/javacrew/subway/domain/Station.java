@@ -1,5 +1,6 @@
 package com.javacrew.subway.domain;
 
+import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -36,6 +37,12 @@ public class Station {
     }
 
     public void setLine(Line line) {
+        if (Objects.nonNull(this.line)) {
+            this.line.getStations().remove(this);
+        }
         this.line = line;
+        if (Objects.nonNull(line) && !line.containsStation(this)) {
+            line.getStations().add(this);
+        }
     }
 }
