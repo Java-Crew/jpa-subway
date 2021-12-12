@@ -7,13 +7,15 @@ import com.javacrew.subway.domain.Station;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.transaction.annotation.Transactional;
 
 @DataJpaTest
 public class StationRepositoryTest {
 
     @Autowired
     private StationRepository stationRepository;
+
+    @Autowired
+    private LineRepository lineRepository;
 
     @Test
     void save() {
@@ -49,4 +51,5 @@ public class StationRepositoryTest {
         Station station2 = stationRepository.findByName("몽촌토성역");
         assertThat(station2).isNotNull();
     }
+
 }
